@@ -140,18 +140,18 @@ EXPECT_EQ("apple A \nsnapple b \n", s);
 //EXPECT_EQ("", s);
 //}
 
-TEST(SelectTest, TestTwoSameColumn) {
-Spreadsheet sheet;
-sheet.set_column_names({"Category", "Name"});
-sheet.add_row({"apple", "A"});
-sheet.add_row({"apple", "A"});
-sheet.add_row({"Apple", "c"});
-std::stringstream ss;
-sheet.set_selection(new Select_Contains(&sheet, "Categ", "apple"));
-sheet.print_selection(ss);
-std::string s = ss.str();
-EXPECT_EQ("apple A \napple A \n", s);
-}
+//TEST(SelectTest, TestTwoSameColumn) {
+//Spreadsheet sheet;
+//sheet.set_column_names({"Category", "Name"});
+//sheet.add_row({"apple", "A"});
+//sheet.add_row({"apple", "A"});
+//sheet.add_row({"Apple", "c"});
+//std::stringstream ss;
+//sheet.set_selection(new Select_Contains(&sheet, "Categ", "apple"));
+//sheet.print_selection(ss);
+//std::string s = ss.str();
+//EXPECT_EQ("apple A \napple A \n", s);
+//}
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
