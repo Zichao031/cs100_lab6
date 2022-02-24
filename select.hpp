@@ -38,4 +38,106 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
+
+// To Do
+// Select_Contains
+class Select_Contains: public Select {
+protected:
+    int column;
+    std::string s;
+public:
+    // set contains function
+    Select_Contains (Spreadsheet* sheet, const std::string& name, const std::string& b) {
+        column = sheet->get_column_by_name(name);
+        s = b;
+    }
+    // check if contain
+    virtual bool select(const Spreadsheet* sheet, int row) const {
+        std::string Data = sheet->cell_data(row, column);
+        if (Data.find(s) != std::string::npos)
+            return true;
+        else
+            return false;
+    }
+
+};
+
+
+//Select_Not
+class Select_Not: public Select {
+protected:
+    Select* val;
+public:
+    // set Not function
+    Select_Not (Select* value) {
+        val = value;
+    }
+
+    //release memory
+    ~Select_Not() {
+        delete val;
+    }
+
+
+    virtual bool select(const Spreadsheet* sheet, int row) const {
+        bool selected_val = val->select(sheet, row);
+        if (selected_val)
+            return false;
+        else
+            return true;
+    }
+};
+
+
+//Select_And
+class Select_And: public Select {
+protected:
+    Select* val1;
+    Select* val2;
+public:
+    // set Select_And function
+    Select_And(Select* value1, Select* value2) {
+        val1 = value1;
+        val2 = value2;
+    }
+
+    ~Select_And() {
+        delete val1;
+        delete val2;
+    }
+    virtual bool select(const Spreadsheet* sheet, int row) const {
+        bool selected_val1 = val1->select(sheet, row);
+        bool selected_val2 = val2->select(sheet, row);
+        if (selected_val1 && selected_val2)
+            return true;
+        else
+            return false;
+    }
+};
+
+
+//Select_Or
+class Select_Or: public Select {
+protected:
+    Select* val1;
+    Select* val2;
+public:
+    Select_Or(Select* value1, Select* value2) {
+        val1 = value1;
+        val2 = value2;
+    }
+    ~Select_Or() {
+        delete val1;
+        delete val2;
+    }
+    virtual bool select(const Spreadsheet* sheet, int row) const {
+        bool selected_val1 = val1->select(sheet, row);
+        bool selected_val2 = val2->select(sheet, row);
+        if (selected_val1 || selected_val2)
+            return true;
+        else
+            return false;
+    }
+};
+
 #endif //__SELECT_HPP__

@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <ostream>
 
 Spreadsheet::~Spreadsheet()
 {
@@ -13,6 +14,30 @@ void Spreadsheet::set_selection(Select* new_select)
 {
     delete select;
     select = new_select;
+}
+
+// To Do
+// print_selection
+void Spreadsheet::print_selection(std::ostream& out) const{
+
+    if(select == nullptr){
+        for(int i = 0; i < data.size();i++){
+            for(int j = 0; j < data.at(i).size();j++){
+                std::cout << data.at(i).at(j) << " ";
+            }
+            out << std::endl;
+        }
+    }
+    else{
+        for (int i = 0; i < data.size(); i++) {
+            if (select->select(this,i)) {
+                for (int j = 0; j < data.at(i).size(); j++) {
+                    out << data.at(i).at(j) << " ";
+                }
+                out << std::endl;
+            }
+        }
+    }
 }
 
 void Spreadsheet::clear()
